@@ -6,6 +6,7 @@ package ooc.yoursolution;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import ooc.enums.Make;
 
 /**
@@ -20,18 +21,17 @@ public class BookingSystem implements BookingSystemInterface{
         String name = in.readLine();
         
         RentACarInterface carRental = new RentACar(name);
+        ArrayList<CarInterface> carsList = new ArrayList<>();
         
-        String line = "";
+        String line = in.readLine();
         Make[] allMakes = Make.values();
         Make make=null;
-        int rate;
+        double rate;
         int id = 1;
         int qtdCars;
         int count;
         
         while (line != null){
-            
-            line = in.readLine();
             count=0;
             String[] content = line.split(":");
             
@@ -41,18 +41,23 @@ public class BookingSystem implements BookingSystemInterface{
                 }
             }
             
-            rate = Integer.parseInt(content[1]);
+            rate = Double.parseDouble(content[1]);
             qtdCars = Integer.parseInt(content[2]);
             
             do {
                 Car cars = new Car (id, make, rate);
                 count++;
+                id++;
+                carsList.add(cars);
+                
             } while (count < qtdCars);
             
             
             
             line = in.readLine();
         }
+        
+        carRental.setCars(carsList);
         
         return carRental;
     }
