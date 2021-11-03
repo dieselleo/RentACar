@@ -46,7 +46,7 @@ public class BookingSystem implements BookingSystemInterface{
             
             do {
                 Car cars = new Car (id, make, rate);
-                cars.createAvailability();
+                cars.setAvailability(cars.createAvailability());
                 count++;
                 id++;
                 carsList.add(cars);

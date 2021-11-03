@@ -78,7 +78,7 @@ public class Car implements CarInterface{
 
     @Override
     public void setAvailability(Map<Month, boolean[]> availability) {
-        this.availability = availability;
+        this.availability = availability;        
     }
 
     @Override
@@ -88,14 +88,34 @@ public class Car implements CarInterface{
 
     @Override
     public boolean isAvailable(Month month, int day) {
-        
+//        System.out.println("trying position "+(day-1));
+//        System.out.println("this is the method isAvailable ->"+availability.get(month)[day-1]);
         return availability.get(month)[day-1];
         
         }
 
     @Override
     public boolean book(Month month, int day) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+//        System.out.println("trying isAvailable inside method book");
+        if(isAvailable(month, day) == true){
+            boolean[] daysToBook = new boolean[this.availability.get(month).length];
+//            System.out.println("daysToBook created with size of "+daysToBook.length);
+            int count=0;
+            for (boolean b : this.availability.get(month)){
+                        daysToBook[count] = b;
+//                        System.out.println("Position "+count+" value "+b);
+                        count++;
+                    }
+            daysToBook[day-1] = false;
+//            System.out.println("daysToBook populated and with size of "+daysToBook.length);
+//            System.out.println("booking started");
+            this.availability.replace(month, daysToBook);
+//            System.out.println("all good, going back to method ->" + true);
+            return true;
+        }
+        
+        return false;
     }
     
 }

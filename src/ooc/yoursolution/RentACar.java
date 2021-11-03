@@ -5,7 +5,9 @@
 package ooc.yoursolution;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import ooc.enums.Make;
 import ooc.enums.Month;
 
@@ -50,8 +52,14 @@ public class RentACar implements RentACarInterface {
         boolean available = false;
         for (CarInterface c : cars) {
             if (c.getMake().equals(make)) {
-                for (int d = day; d < lengthOfRent; d++) {
+//                System.out.println(c.toString());
+//                System.out.println("Month available in this car "+c.getAvailability().size());
+//                System.out.println("Days available on the "+month+" month "+c.getAvailability().get(month).length);
+                for (int d = day; d <= lengthOfRent; d++) {
                     available = c.isAvailable(month, (d));
+                    if (available == false){
+                        d = lengthOfRent;
+                    }
                 }
             }
         }
@@ -65,21 +73,38 @@ public class RentACar implements RentACarInterface {
         boolean available = false;
         for (CarInterface c : cars) {
             if (c.getMake().equals(make)) {
-                for (int d = day; d < lengthOfRent; d++) {
-                    available = c.isAvailable(month, (d));
-                    if (available == true) {
-                        return c.getId();
-                    }
+                available = checkAvailability(month, day, make, lengthOfRent);
+                if (available == true) {
+//                    System.out.println("good return");
+                    return c.getId();
                 }
             }
         }
+//        System.out.println("no car available");
 
         return 0;
     }
 
     @Override
     public boolean bookCar(Month month, int day, Make make, int lengthOfRent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        System.out.println("Trying booking");
+        boolean booked = false;
+        int carToBook = getCarAvailable(month, day, make, lengthOfRent);
+        for (CarInterface c : cars) {
+            if(carToBook == c.getId()){
+                for (int d = day; d <= lengthOfRent; d++) {
+//                    System.out.println("trying to book day "+d);
+                    booked = c.book(month, d);
+                    if (booked == true) {
+//                        System.out.println("all good back in the method, keep going");
+                    } else {
+                        d = lengthOfRent;
+                    }
+                }
+            }
+        }
+
+        return booked;
     }
 
     @Override
