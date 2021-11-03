@@ -4,6 +4,7 @@
  */
 package ooc.yoursolution;
 
+import java.util.HashMap;
 import java.util.Map;
 import ooc.enums.Make;
 import ooc.enums.Month;
@@ -17,11 +18,13 @@ public class Car implements CarInterface{
     private int id;
     private Make make;
     private double rate;
+    private Map<Month, boolean[]> availability;
     
     public Car (int id, Make make, double rate) {
         this.id = id;
         this.make = make;
         this.rate = rate;
+        this.availability = new HashMap<>();
         
     }
 
@@ -34,7 +37,18 @@ public class Car implements CarInterface{
     
     @Override
     public Map<Month, boolean[]> createAvailability() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Month[] allMonths = Month.values();
+        for (Month m : allMonths){
+            int numDays = m.getNumberOfDays();
+            boolean[] days = new boolean[numDays];
+            for (int d = 0; d < numDays; d++){
+                days[d] = true;  
+                availability.put(m, days); 
+            }
+        }
+        
+        return availability;
     }
 
     @Override
@@ -59,12 +73,12 @@ public class Car implements CarInterface{
 
     @Override
     public Map<Month, boolean[]> getAvailability() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return availability;
     }
 
     @Override
     public void setAvailability(Map<Month, boolean[]> availability) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.availability = availability;
     }
 
     @Override
@@ -74,8 +88,10 @@ public class Car implements CarInterface{
 
     @Override
     public boolean isAvailable(Month month, int day) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        
+        return availability.get(month)[day-1];
+        
+        }
 
     @Override
     public boolean book(Month month, int day) {

@@ -13,16 +13,16 @@ import ooc.enums.Month;
  *
  * @author diese
  */
-public class RentACar implements RentACarInterface{
-    
+public class RentACar implements RentACarInterface {
+
     List<CarInterface> cars;
     String name;
-    
+
     public RentACar(String name) {
-        
+
         this.name = name;
         this.cars = new ArrayList<CarInterface>();
-        
+
     }
 
     @Override
@@ -47,12 +47,34 @@ public class RentACar implements RentACarInterface{
 
     @Override
     public boolean checkAvailability(Month month, int day, Make make, int lengthOfRent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean available = false;
+        for (CarInterface c : cars) {
+            if (c.getMake().equals(make)) {
+                for (int d = day; d < lengthOfRent; d++) {
+                    available = c.isAvailable(month, (d));
+                }
+            }
+        }
+
+        return available;
+
     }
 
     @Override
     public int getCarAvailable(Month month, int day, Make make, int lengthOfRent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean available = false;
+        for (CarInterface c : cars) {
+            if (c.getMake().equals(make)) {
+                for (int d = day; d < lengthOfRent; d++) {
+                    available = c.isAvailable(month, (d));
+                    if (available == true) {
+                        return c.getId();
+                    }
+                }
+            }
+        }
+
+        return 0;
     }
 
     @Override
@@ -64,5 +86,5 @@ public class RentACar implements RentACarInterface{
     public int getNumberOfCars() {
         return cars.size();
     }
-    
+
 }

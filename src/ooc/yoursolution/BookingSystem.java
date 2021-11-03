@@ -46,13 +46,13 @@ public class BookingSystem implements BookingSystemInterface{
             
             do {
                 Car cars = new Car (id, make, rate);
+                cars.createAvailability();
                 count++;
                 id++;
                 carsList.add(cars);
                 
             } while (count < qtdCars);
-            
-            
+                      
             
             line = in.readLine();
         }
