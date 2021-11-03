@@ -108,6 +108,7 @@ public class Car implements CarInterface{
                         count++;
                     }
             daysToBook[day-1] = false;
+//            System.out.println("update position"+(day-1));
 //            System.out.println("daysToBook populated and with size of "+daysToBook.length);
 //            System.out.println("booking started");
             this.availability.replace(month, daysToBook);

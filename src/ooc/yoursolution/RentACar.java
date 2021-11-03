@@ -59,6 +59,8 @@ public class RentACar implements RentACarInterface {
                     available = c.isAvailable(month, (d));
                     if (available == false){
                         d = lengthOfRent;
+                    } else {
+                        return available;
                     }
                 }
             }
@@ -71,36 +73,42 @@ public class RentACar implements RentACarInterface {
     @Override
     public int getCarAvailable(Month month, int day, Make make, int lengthOfRent) {
         boolean available = false;
+        int carToBook=0;
+        int realLength = lengthOfRent+day;
         for (CarInterface c : cars) {
-            if (c.getMake().equals(make)) {
-                available = checkAvailability(month, day, make, lengthOfRent);
-                if (available == true) {
-//                    System.out.println("good return");
-                    return c.getId();
+            carToBook = c.getId();
+//            System.out.println("Got car ID "+carToBook+" Make "+c.getMake());
+            if(c.getMake().equals(make)) {
+                for (int d = day; d < realLength; d++) {
+                    available = c.isAvailable(month, (d));
+                    if (available == false){
+                        d = realLength;
+                    } else {
+                        return c.getId();
+                    }
                 }
             }
         }
 //        System.out.println("no car available");
 
-        return 0;
+        return carToBook;
     }
 
     @Override
     public boolean bookCar(Month month, int day, Make make, int lengthOfRent) {
 //        System.out.println("Trying booking");
         boolean booked = false;
+        int realLength = lengthOfRent+day;
         int carToBook = getCarAvailable(month, day, make, lengthOfRent);
+//        System.out.println("returned available car");
         for (CarInterface c : cars) {
-            if(carToBook == c.getId()){
-                for (int d = day; d <= lengthOfRent; d++) {
+            if(c.getMake().equals(make)) {
+                if(carToBook == c.getId()){
+                for (int d = day; d < realLength; d++) {
 //                    System.out.println("trying to book day "+d);
                     booked = c.book(month, d);
-                    if (booked == true) {
-//                        System.out.println("all good back in the method, keep going");
-                    } else {
-                        d = lengthOfRent;
                     }
-                }
+                }            
             }
         }
 
