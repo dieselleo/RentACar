@@ -98,7 +98,14 @@ public class RentACar implements RentACarInterface {
 
     @Override
     public boolean bookCar(Month month, int day, Make make, int lengthOfRent) {
+<<<<<<< HEAD
 //        Trying booking
+=======
+        if (day > month.getNumberOfDays() || month.getNumberOfDays() < (day+lengthOfRent)){
+            return false;
+        }
+//        System.out.println("Trying booking");
+>>>>>>> 364f3b173798f46ad65ff284fe32e37304a057e6
         boolean booked = false;
         int realLength = lengthOfRent+day;
         int carToBook = getCarAvailable(month, day, make, lengthOfRent);
