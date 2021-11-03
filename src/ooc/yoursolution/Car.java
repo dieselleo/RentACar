@@ -12,6 +12,7 @@ import ooc.enums.Month;
 /**
  *
  * @author diese
+ * co-author Willian Amaral
  */
 public class Car implements CarInterface{
     
@@ -37,7 +38,9 @@ public class Car implements CarInterface{
     
     @Override
     public Map<Month, boolean[]> createAvailability() {
-        
+        /*
+        here we creat the loop to check the boolean to see if the days is avalable or not (true or false)
+        */
         Month[] allMonths = Month.values();
         for (Month m : allMonths){
             int numDays = m.getNumberOfDays();

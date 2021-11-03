@@ -13,7 +13,8 @@ import ooc.enums.Month;
 
 /**
  *
- * @author diese
+ * @author diesel
+ * co-author Willian Amaral
  */
 public class RentACar implements RentACarInterface {
 
@@ -89,23 +90,24 @@ public class RentACar implements RentACarInterface {
                 }
             }
         }
-//        System.out.println("no car available");
-
+/*        "no car available"
+     
+*/
         return carToBook;
     }
 
     @Override
     public boolean bookCar(Month month, int day, Make make, int lengthOfRent) {
-//        System.out.println("Trying booking");
+//        Trying booking
         boolean booked = false;
         int realLength = lengthOfRent+day;
         int carToBook = getCarAvailable(month, day, make, lengthOfRent);
-//        System.out.println("returned available car");
+//        returned available car;
         for (CarInterface c : cars) {
             if(c.getMake().equals(make)) {
                 if(carToBook == c.getId()){
                 for (int d = day; d < realLength; d++) {
-//                    System.out.println("trying to book day "+d);
+//                  "trying to book day "+d;
                     booked = c.book(month, d);
                     }
                 }            

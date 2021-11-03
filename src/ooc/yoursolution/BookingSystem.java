@@ -11,7 +11,8 @@ import ooc.enums.Make;
 
 /**
  *
- * @author diese
+ * @author diesel
+ * co-author Willian Amaral
  */
 public class BookingSystem implements BookingSystemInterface{
 
